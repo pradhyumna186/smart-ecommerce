@@ -44,5 +44,45 @@ NEXT REVISION TOPICS (TO BE ADDED):
 - Docker containerization
 - AWS deployment concepts
 
+==========================================
+NEW REVISION TOPIC: JPA ANNOTATIONS
+==========================================
+
+TOPIC: JPA (Java Persistence API) Annotations for Entity Mapping
+----------------------------------------------------------------
+
+NEED TO REVISE:
+1. @Entity - Marks a class as a JPA entity (vs @Document for MongoDB)
+2. @Table - Specifies the database table name (vs collection name in MongoDB)
+3. @Id - Marks a field as the primary key
+4. @GeneratedValue - Configures primary key generation strategy (vs MongoDB's ObjectId)
+5. @Column - Configures column properties (name, nullable, unique, length)
+6. @Enumerated - Maps enum values to database (EnumType.STRING vs ORDINAL)
+7. @CreatedDate - Automatically sets creation timestamp
+8. @LastModifiedDate - Automatically updates modification timestamp
+9. @EntityListeners - Enables auditing functionality
+
+QUESTIONS TO ANSWER:
+- What's the difference between @Entity and @Document?
+- When to use @GeneratedValue(strategy = GenerationType.IDENTITY)?
+- How does @Column(unique = true) work?
+- What's the purpose of @Enumerated(EnumType.STRING)?
+- How do @CreatedDate and @LastModifiedDate work?
+- What's the difference between JPA and MongoDB annotations?
+
+PRACTICAL EXAMPLES NEEDED:
+- @Entity vs @Document (MongoDB)
+- @Id vs @Id (MongoDB)
+- @Column vs @Field (MongoDB)
+- @GeneratedValue vs MongoDB's auto-generated ObjectId
+- @Table vs @Document collection name
+- @Enumerated vs storing enum as string in MongoDB
+
+RESOURCES TO CHECK:
+- JPA specification documentation
+- Spring Data JPA reference
+- Hibernate documentation
+- Database schema design best practices
+
 Last Updated: [Current Date]
-Current Focus: Spring Boot REST Annotations 
+Current Focus: JPA Annotations for User Service 
