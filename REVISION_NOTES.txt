@@ -1,0 +1,48 @@
+REVISION NOTES - SMART E-COMMERCE PROJECT
+==========================================
+
+CURRENT REVISION TOPIC: Spring Boot Annotations
+===============================================
+
+TOPIC: @PathVariable, @RequestBody, @RequestParam and Similar Annotations
+-------------------------------------------------------------------------
+
+NEED TO REVISE:
+1. @PathVariable - How it works, when to use it
+2. @RequestBody - How it works, when to use it  
+3. @RequestParam - How it works, when to use it
+4. @RequestMapping - Base path configuration
+5. @GetMapping, @PostMapping, @PutMapping, @DeleteMapping - HTTP methods
+6. @RestController vs @Controller - Differences
+7. ResponseEntity - How to return proper HTTP responses
+8. HttpStatus - Different status codes and when to use them
+
+QUESTIONS TO ANSWER:
+- What's the difference between @PathVariable and @RequestParam?
+- When do I use @RequestBody vs @RequestParam?
+- How does @RequestMapping work with other annotations?
+- What HTTP status codes should I return for different scenarios?
+- How do I handle errors properly in REST controllers?
+
+PRACTICAL EXAMPLES NEEDED:
+- GET /api/products/{id} - @PathVariable
+- POST /api/products - @RequestBody
+- GET /api/products/search?name=phone - @RequestParam
+- PUT /api/products/{id} - @PathVariable + @RequestBody
+- DELETE /api/products/{id} - @PathVariable
+
+RESOURCES TO CHECK:
+- Spring Boot Documentation
+- Spring Web MVC Guide
+- REST API Best Practices
+- HTTP Status Codes Reference
+
+NEXT REVISION TOPICS (TO BE ADDED):
+- MongoDB vs PostgreSQL differences
+- Spring Security and JWT
+- Microservices communication
+- Docker containerization
+- AWS deployment concepts
+
+Last Updated: [Current Date]
+Current Focus: Spring Boot REST Annotations 
