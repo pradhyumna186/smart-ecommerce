@@ -3,167 +3,94 @@ SMART E-COMMERCE MICROSERVICES PLATFORM - PROJECT LOG
 
 PROJECT OVERVIEW:
 - Building a microservices-based e-commerce platform
-- 4 separate Spring Boot services for resume showcase
-- Demonstrates microservices architecture, Docker, AWS deployment
+- 4 separate Spring Boot services
+- Demonstrates microservices architecture and inter-service communication
 
 ARCHITECTURE:
 ├── product-service/    (MongoDB) - Product catalog & inventory
-├── user-service/       (PostgreSQL) - Authentication & user management  
-├── order-service/      (PostgreSQL) - Order processing & payments
-└── api-gateway/       (Spring Cloud Gateway) - Centralized routing
+├── user-service/       (PostgreSQL) - User management & basic auth
+├── order-service/      (PostgreSQL) - Order processing
+└── api-gateway/        (Spring Cloud Gateway) - Centralized routing
 
-TECHNOLOGY STACK:
-- Backend: Spring Boot 3.5.4, Spring Security, Spring Data JPA/MongoDB
-- Databases: PostgreSQL, MongoDB, Redis
-- Authentication: JWT, OAuth2
-- Containerization: Docker, Kubernetes
-- Cloud: AWS (ECS, RDS, S3)
-- API Documentation: Swagger/OpenAPI
+TECHNOLOGY STACK (CURRENT):
+- Backend: Spring Boot 3.5.4, Java 17
+- APIs: Spring Web (MVC), Spring WebFlux (Gateway + Order clients)
+- Data: Spring Data JPA (User/Order), Spring Data MongoDB (Product)
+- Security: Spring Security Basic (default user)
+- Gateway: Spring Cloud Gateway (server-webflux)
+- Build: Maven
 
-DEVELOPMENT PROGRESS:
+PLANNED/NOT YET IMPLEMENTED:
+- JWT/OAuth2, Swagger/OpenAPI, Redis
+- Rate limit enforcement (gateway) beyond logging/counter
+- Shopping cart and payment integration (order service)
+- Docker/Kubernetes manifests and AWS deployment assets
+
+DEVELOPMENT PROGRESS
 ================================================================
 
 PHASE 1: PROJECT SETUP ✅ COMPLETED
 -----------------------------------
-1. Created project structure with 4 separate Spring Boot projects
-2. Product Service: Spring Boot 3.5.4, Java 17, MongoDB
-   - Dependencies: Spring Web, Spring Data MongoDB, Validation, Actuator
-   - Package: com.ecommerce.product
-3. User Service: Spring Boot 3.5.4, Java 17, PostgreSQL + Security
-   - Dependencies: Spring Web, Spring Data JPA, Spring Security, PostgreSQL Driver
-   - Package: com.ecommerce.user
-4. Order Service: Spring Boot 3.5.4, Java 17, PostgreSQL + Security
-   - Dependencies: Spring Web, Spring Data JPA, Spring Security, PostgreSQL Driver
-   - Package: com.ecommerce.order
-5. API Gateway: Spring Boot 3.5.4, Java 17, Spring Cloud Gateway
-   - Dependencies: Spring Cloud Gateway, Actuator, DevTools
-   - Package: com.ecommerce.gateway
+- Multi-module structure in place with 4 Spring Boot services
 
-NEXT STEPS TO COMPLETE:
-================================================================
+PHASE 2: PRODUCT SERVICE ✅ COMPLETED
+------------------------------------
+- Model, repository, service, controller implemented
+- CRUD + search/filter endpoints working
+- MongoDB config present (localhost:27017)
 
-PHASE 2: PRODUCT SERVICE DEVELOPMENT
------------------------------------
-1. ✅ Create Product Model (MongoDB Document)
-   - Fields: id, name, description, price, category, stockQuantity, imageUrl, createdAt, updatedAt
-   - Annotations: @Document, @Id, @CreatedDate, @LastModifiedDate
-   - Location: src/main/java/com/ecommerce/product/model/Product.java
-   - Added Lombok annotations: @Data, @NoArgsConstructor, @AllArgsConstructor
-
-2. ✅ Create Product Repository
-   - Interface extending MongoRepository<Product, String>
-   - Custom query methods for search and filtering
-   - Location: src/main/java/com/ecommerce/product/repository/ProductRepository.java
-   - Methods: findByCategory, findByNameContainingIgnoreCase, findByPriceBetween, findByStockQuantityGreaterThan
-
-3. ✅ Create Product Service
-   - Business logic for CRUD operations
-   - Inventory management
-   - Search and filtering logic
-   - Location: src/main/java/com/ecommerce/product/service/ProductService.java
-   - Methods: getAllProducts, getProductById, createProduct, updateProduct, deleteProduct, getProductsByCategory, getProductsByName, getProductsByPriceRange, getProductsInStock
-
-4. ✅ Create Product Controller
-   - REST APIs for product operations
-   - CRUD endpoints
-   - Search and filter endpoints
-   - Location: src/main/java/com/ecommerce/product/controller/ProductController.java
-   - Endpoints: GET/POST /api/products, GET/PUT/DELETE /api/products/{id}, search endpoints
-
-5. ✅ Configure MongoDB Connection
-   - application.properties configuration
-   - MongoDB connection settings
-   - Location: src/main/resources/application.properties
-   - MongoDB running in Docker on port 27017
-   - Successfully tested with product creation
-
-PHASE 3: USER SERVICE DEVELOPMENT ✅ COMPLETED
---------------------------------
-1. ✅ Create User Model (JPA Entity)
-   - Fields: id, username, email, password, firstName, lastName, role, enabled, createdAt, updatedAt
-   - Annotations: @Entity, @Table, @Id, @GeneratedValue, @Column, @Enumerated, @CreatedDate, @LastModifiedDate
-   - Location: src/main/java/com/ecommerce/user/model/User.java
-   - Added Lombok @Data annotation for getters/setters
-
-2. ✅ Create User Repository
-   - Interface extending JpaRepository<User, Long>
-   - Custom query methods for authentication and search
-   - Location: src/main/java/com/ecommerce/user/repository/UserRepository.java
-   - Methods: findByUsername, findByEmail, findByRole, findByEnabled, search methods
-
-3. ✅ Create User Service
-   - Business logic for CRUD operations and authentication
-   - User management and validation
-   - Location: src/main/java/com/ecommerce/user/service/UserService.java
-   - Methods: createUser, getAllUsers, getUserById, updateUser, deleteUser, authenticateUser, search methods
-
-4. ✅ Create User Controller
-   - REST APIs for user operations and authentication
-   - CRUD endpoints with proper HTTP status codes
-   - Location: src/main/java/com/ecommerce/user/controller/UserController.java
-   - Endpoints: POST/GET /api/users, authentication, search, validation endpoints
-
-5. ✅ Configure Spring Security
-   - Basic authentication enabled
-   - Default credentials: admin/admin123
-   - CORS configuration added
-   - Security configuration in main application class
-
-6. ✅ Implement JWT Authentication
-   - Basic authentication working
-   - Ready for JWT implementation in future
-
-✅ TESTING RESULTS - ALL ENDPOINTS WORKING:
-- ✅ POST /api/users - Create user (working)
-- ✅ GET /api/users - Get all users (working)
-- ✅ GET /api/users/{id} - Get user by ID (working)
-- ✅ GET /api/users/username/{username} - Get user by username (working)
-- ✅ GET /api/users/email/{email} - Get user by email (working)
-- ✅ GET /api/users/role/{role} - Get users by role (working)
-- ✅ GET /api/users/active - Get active users (working)
-- ✅ PUT /api/users/{id} - Update user (working)
-- ✅ PUT /api/users/{id}/enable - Enable user (working)
-- ✅ PUT /api/users/{id}/disable - Disable user (working)
-- ✅ DELETE /api/users/{id} - Delete user (working)
-
-PHASE 4: ORDER SERVICE DEVELOPMENT
----------------------------------
-1. Create Order Model (JPA Entity)
-2. Create Order Repository
-3. Create Order Service
-4. Create Order Controller
-5. Implement Shopping Cart
-6. Add Payment Integration
-
-PHASE 5: API GATEWAY CONFIGURATION
+PHASE 3: USER SERVICE ✅ COMPLETED
 ----------------------------------
-1. Configure routing to services
-2. Implement authentication
-3. Add rate limiting
-4. Configure CORS
+- JPA entity, repository, service, controller implemented
+- Basic authentication enabled (admin/admin123)
+- CRUD + search/validation/auth endpoints working
 
-PHASE 6: SERVICE INTEGRATION
-----------------------------
-1. Inter-service communication
-2. Event-driven architecture
-3. Distributed transactions
-4. Error handling
+PHASE 4: ORDER SERVICE ▶ IN PROGRESS
+------------------------------------
+- Entities, repositories, services implemented
+- Controller endpoints for CRUD, items, and status updates
+- Inter-service validation via WebClient (user/product)
+- Event publisher/listener present
+- Outstanding: shopping cart, payment integration
 
-PHASE 7: DEPLOYMENT & TESTING
-------------------------------
-1. Docker containerization
-2. Kubernetes manifests
-3. AWS deployment
-4. Load testing
-5. Performance optimization
+PHASE 5: API GATEWAY ▶ IN PROGRESS
+-----------------------------------
+- Routes configured for products/users/orders
+- CORS configured
+- Global filters present: AuthenticationFilter (logging), RateLimitFilter (counter only)
+- Outstanding: JWT integration and rate-limit enforcement
 
-CURRENT STATUS: PHASE 1 COMPLETED ✅
-NEXT TASK: Start PHASE 2 - Product Service Development
+PHASE 6: SERVICE INTEGRATION ✅ PARTIAL
+--------------------------------------
+- Inter-service calls working
+- Distributed transaction flow implemented for order creation
+- Global error handling present
 
-RESUME IMPACT:
-- "Designed 3-service microservices architecture handling 10,000+ products and 1,000+ concurrent users"
-- "Implemented 15+ secure REST APIs with JWT authentication supporting multi-role user management"
-- "Achieved 99.9% uptime with Docker containerization and reduced deployment time by 70%"
+PHASE 7: DEPLOYMENT & TESTING 🚧 PENDING
+----------------------------------------
+- No Docker/K8s/AWS artifacts yet
+- Load/performance testing not set up yet
 
-Last Updated: [Current Date]
-Current Phase: Ready to start Product Service development 
+VERIFIED ENDPOINTS (via API Gateway)
+------------------------------------
+- Product: /api/products (CRUD, search)
+- User: /api/users (CRUD, auth, search, validation)
+- Order: /api/orders (CRUD, items, status)
+
+CURRENT STATUS
+--------------
+- Active work: Phases 4–5 polishing; Phase 6 partially complete
+- Next tasks:
+  1) Enforce rate limiting in gateway
+  2) Introduce JWT (gateway + services)
+  3) Implement shopping cart & payment in order-service
+  4) Add Swagger/OpenAPI
+  5) Add Docker/K8s/AWS deployment assets
+
+RESUME IMPACT (CURRENTLY ACCURATE):
+- Implemented 3 microservices + API gateway with inter-service validation
+- Built 20+ REST endpoints across services (CRUD/search/auth/status)
+- Verified end-to-end order flow through API Gateway
+
+Last Updated: 2025-08-09
+Current Phase: Order Service + Gateway polish (Phases 4–5)
